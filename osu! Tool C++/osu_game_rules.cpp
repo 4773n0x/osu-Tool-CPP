@@ -17,22 +17,22 @@ namespace osu
 
 	float game_rules::get_hit_window_300(float overall_difficulty)
 	{
-		return map_difficulty_range(overall_difficulty, hit_window_300_min, hit_window_300_mid, hit_window_300_max);
+		return map_difficulty_range(overall_difficulty, 80, 50, 20);
 	}
 
 	float game_rules::get_hit_window_100(float overall_difficulty)
 	{
-		return map_difficulty_range(overall_difficulty, hit_window_100_min, hit_window_100_mid, hit_window_100_max);
+		return map_difficulty_range(overall_difficulty, 140, 100, 60);
 	}
 
 	float game_rules::get_hit_window_50(float overall_difficulty)
 	{
-		return map_difficulty_range(overall_difficulty, hit_window_50_min, hit_window_50_mid, hit_window_50_max);
+		return map_difficulty_range(overall_difficulty, 200, 150, 100);
 	}
 
 	float game_rules::get_hit_window_miss()
 	{
-		return hit_window_miss;
+		return 400;
 	}
 
 	score::hit game_rules::get_hit_result(float delta, float overall_difficulty)

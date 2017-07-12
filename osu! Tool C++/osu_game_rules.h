@@ -15,16 +15,5 @@ namespace osu
 
 	private:
 		static float map_difficulty_range(float scaled_diff, float min, float mid, float max);
-
-		const static int hit_window_300_min = 80;
-		const static int hit_window_300_mid = 50;
-		const static int hit_window_300_max = 20;
-		const static int hit_window_100_min = 140;
-		const static int hit_window_100_mid = 100;
-		const static int hit_window_100_max = 60;
-		const static int hit_window_50_min = 200;
-		const static int hit_window_50_mid = 150;
-		const static int hit_window_50_max = 100;
-		const static int hit_window_miss = 400;
 	};
 }

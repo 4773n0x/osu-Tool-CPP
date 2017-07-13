@@ -1,0 +1,6 @@
+relax_hit_scan=true
+relax_tapping_style=1
+relax_offset=-25
+relax_hit_scan_circle_offset=0
+program_window_title=
+osu_window_title=osu!Beta

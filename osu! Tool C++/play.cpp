@@ -19,7 +19,7 @@ void play::run(const cheat& c, const osu::beatmap& b, const osu::window& w) cons
 		if (!c.is_map_playing())
 			break;
 
-		const osu::beatmap_hit_object& object = b.get_hit_objects()[object_index];
+		const osu::hit_object& object = b.get_hit_objects()[object_index];
 		bool waiting = false;
 
 		if (settings::relax_hit_scan && !object.is_spinner())

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vector2.h"
+#include "osu_hit_object.h"
 
 #include <string>
 #include <vector>
@@ -41,48 +41,6 @@ namespace osu
 		float velocity;
 	};
 
-	enum hit_object_type
-	{
-		hit_object_circle = 1,
-		hit_object_slider = 2,
-		hit_object_spinner = 8
-	};
-
-	enum class hit_object_slider_type
-	{
-		linear = 'L',
-		perfect = 'P',
-		bezier = 'B',
-		catmull = 'C'
-	};
-
-	struct beatmap_hit_object
-	{
-		vector2 coordinates;
-		int start_time;
-		int end_time;
-		int type;
-		hit_object_slider_type slider_type;
-		std::vector<vector2> slider_coordinates;
-		int slider_repeat;
-		float slider_pixel_length;
-
-		bool is_circle() const
-		{
-			return (type & hit_object_circle) == hit_object_circle;
-		}
-
-		bool is_slider() const
-		{
-			return (type & hit_object_slider) == hit_object_slider;
-		}
-
-		bool is_spinner() const
-		{
-			return (type & hit_object_spinner) == hit_object_spinner;
-		}
-	};
-
 	class beatmap
 	{
 	public:
@@ -93,19 +51,22 @@ namespace osu
 		const beatmap_general& get_general() const { return general; }
 		const beatmap_difficulty& get_difficulty() const { return difficulty; }
 		const std::vector<beatmap_timing_point>& get_timing_points() const { return timing_points; }
-		const std::vector<beatmap_hit_object>& get_hit_objects() const { return hit_objects; }
+		const std::vector<hit_object>& get_hit_objects() const { return hit_objects; }
 		float get_circle_radius() const { return circle_radius; }
+		float get_circle_diameter() const { return circle_diameter; }
 
 	private:
 		void parse_general(const std::string& line);
 		void parse_difficulty(const std::string& line, bool ez, bool hr, bool& found_ar);
 		void parse_timing_points(const std::string& line, float& last_ms_per_beat);
 		void parse_hit_objects(const std::string& line);
+		void calculate_stacking();
 
 		beatmap_general general;
 		beatmap_difficulty difficulty;
 		std::vector<beatmap_timing_point> timing_points;
-		std::vector<beatmap_hit_object> hit_objects;
+		std::vector<hit_object> hit_objects;
 		float circle_radius;
+		float circle_diameter;
 	};
 }

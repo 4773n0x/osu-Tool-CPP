@@ -1,5 +1,6 @@
 #include "osu_beatmap.h"
 #include "split_string.h"
+#include "osu_game_rules.h"
 
 #include <fstream>
 #include <algorithm>
@@ -79,6 +80,8 @@ namespace osu
 		// Older beatmaps don't have AR, it's the same as OD.
 		if (!found_ar)
 			difficulty.approach_rate = difficulty.overall_difficulty;
+
+		calculate_stacking();
 	}
 
 	beatmap_timing_point beatmap::get_timing_point_from_offset(float offset) const
@@ -124,6 +127,7 @@ namespace osu
 
 			difficulty.circle_size = std::min(difficulty.circle_size, 10.0f);
 			circle_radius = (beatmap_playfield.x / 16.0f) * (1.0f - 0.7f * (difficulty.circle_size - 5.0f) / 5.0f);
+			circle_diameter = circle_radius * 2.0f;
 		}
 		else if (split_line.front() == "OverallDifficulty")
 		{
@@ -177,19 +181,18 @@ namespace osu
 	{
 		const auto split_line = split_string(line, ",");
 
-		beatmap_hit_object hit_object;
-		hit_object.coordinates.x = static_cast<float>(std::stoi(split_line[0]));
-		hit_object.coordinates.y = static_cast<float>(std::stoi(split_line[1]));
-		hit_object.start_time = std::stoi(split_line[2]);
-		hit_object.type = std::stoi(split_line[3]);
+		hit_object object;
+		object.coordinates.x = static_cast<float>(std::stoi(split_line[0]));
+		object.coordinates.y = static_cast<float>(std::stoi(split_line[1]));
+		object.start_time = std::stoi(split_line[2]);
+		object.type = std::stoi(split_line[3]);
 
-		if (hit_object.is_circle())
-			hit_object.end_time = hit_object.start_time;
-		else if (hit_object.is_slider())
+		if (object.is_circle())
+			object.end_time = object.start_time;
+		else if (object.is_slider())
 		{
 			const auto split_slider = split_string(split_line[5], "|");
-
-			hit_object.slider_type = static_cast<hit_object_slider_type>(split_slider[0].front());
+			object.slider_type = static_cast<hit_object_slider_type>(split_slider[0].front());
 
 			for (size_t i = 1; i < split_slider.size(); i++)
 			{
@@ -199,20 +202,25 @@ namespace osu
 				coords.x = static_cast<float>(std::stoi(split_coords.front()));
 				coords.y = static_cast<float>(std::stoi(split_coords.back()));
 
-				hit_object.slider_coordinates.push_back(coords);
+				object.slider_curve.push_back(coords);
 			}
 
-			hit_object.slider_repeat = std::stoi(split_line[6]);
-			hit_object.slider_pixel_length = std::stof(split_line[7]);
+			object.slider_repeat = std::stoi(split_line[6]);
+			object.slider_pixel_length = std::stof(split_line[7]);
 
-			const beatmap_timing_point timing_point = get_timing_point_from_offset(static_cast<float>(hit_object.start_time));
+			const beatmap_timing_point timing_point = get_timing_point_from_offset(static_cast<float>(object.start_time));
 			const float px_per_beat = difficulty.slider_multiplier * 100 * timing_point.velocity;
-			const float beats_num = (hit_object.slider_pixel_length * hit_object.slider_repeat) / px_per_beat;
-			hit_object.end_time = hit_object.start_time + static_cast<int>(std::ceil(beats_num * timing_point.ms_per_beat));
+			const float beats_num = (object.slider_pixel_length * object.slider_repeat) / px_per_beat;
+			object.end_time = object.start_time + static_cast<int>(std::ceil(beats_num * timing_point.ms_per_beat));
 		}
-		else if (hit_object.is_spinner())
-			hit_object.end_time = std::stoi(split_line[5]);
+		else if (object.is_spinner())
+			object.end_time = std::stoi(split_line[5]);
 
-		hit_objects.push_back(hit_object);
+		hit_objects.push_back(object);
+	}
+
+	void beatmap::calculate_stacking()
+	{
+		// https://gist.github.com/peppy/1167470
 	}
 }

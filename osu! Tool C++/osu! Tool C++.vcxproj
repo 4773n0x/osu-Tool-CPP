@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cheat.cpp" />
+    <ClCompile Include="config.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="osu_beatmap.cpp" />
     <ClCompile Include="osu_game_rules.cpp" />
+    <ClCompile Include="osu_hit_object.cpp" />
     <ClCompile Include="osu_window.cpp" />
     <ClCompile Include="play.cpp" />
     <ClCompile Include="settings.cpp" />
@@ -23,15 +25,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cheat.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="osu_beatmap.h" />
     <ClInclude Include="osu_game_rules.h" />
+    <ClInclude Include="osu_hit_object.h" />
     <ClInclude Include="osu_score.h" />
     <ClInclude Include="osu_window.h" />
     <ClInclude Include="play.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="split_string.h" />
     <ClInclude Include="vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Settings.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

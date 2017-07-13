@@ -1,4 +1,6 @@
 relax_hit_scan=true
+relax_primary_key=x
+relax_secondary_key=z
 relax_tapping_style=1
 relax_offset=-25
 relax_hit_scan_circle_offset=0

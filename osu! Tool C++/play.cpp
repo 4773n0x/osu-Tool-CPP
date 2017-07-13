@@ -86,8 +86,8 @@ bool play::is_cursor_on_circle(const vector2& coords, float circle_radius, float
 	POINT p;
 	GetCursorPos(&p);
 
-	int distance_x = static_cast<int>(coords.x) - p.x;
-	int distance_y = static_cast<int>(coords.y) - p.y;
+	const float distance_x = coords.x - p.x;
+	const float distance_y = coords.y - p.y;
 	circle_radius -= offset;
 
 	if (distance_x * distance_x + distance_y * distance_y <= circle_radius * circle_radius)

@@ -48,6 +48,9 @@ namespace cfg
 		for (const auto& i : b_keys)
 			file << i->name << delimiter << (*i->value ? "true" : "false") << std::endl;
 
+		for (const auto& i : c_keys)
+			file << i->name << delimiter << *i->value << std::endl;
+
 		for (const auto& i : i_keys)
 			file << i->name << delimiter << *i->value << std::endl;
 
@@ -97,6 +100,13 @@ namespace cfg
 		{
 			i->name = pairs[keys_parsed].first;
 			*i->value = pairs[keys_parsed].second == "true" ? true : false;
+			keys_parsed++;
+		}
+
+		for (const auto& i : c_keys)
+		{
+			i->name = pairs[keys_parsed].first;
+			*i->value = pairs[keys_parsed].second.front();
 			keys_parsed++;
 		}
 

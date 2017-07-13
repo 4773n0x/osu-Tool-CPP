@@ -131,7 +131,7 @@ namespace cfg
 
 	size_t config::size() const
 	{
-		return b_keys.size() + i_keys.size() + f_keys.size() + d_keys.size() + str_keys.size();
+		return b_keys.size() + c_keys.size() + i_keys.size() + f_keys.size() + d_keys.size() + str_keys.size();
 	}
 
 	void config::check_file(const std::fstream& file) const
